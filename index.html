@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Alen Delić | Biostatistical Consulting</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --navy:#0f2a4a;--teal:#1a7f6e;--teal-light:#e8f6f3;--teal-mid:#2da892;
+    --gray:#f7f8fa;--border:#e2e6ea;--text:#1a1d23;--muted:#5a6270;--white:#fff;
+  }
+  body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);background:var(--white);line-height:1.6}
+  a{color:inherit;text-decoration:none}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:99;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--border);padding:0 2rem}
+  .nav-inner{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+  .nav-logo{font-size:1.1rem;font-weight:700;color:var(--navy);letter-spacing:-.3px}
+  .nav-logo span{color:var(--teal)}
+  .nav-links{display:flex;gap:2rem;font-size:.9rem;color:var(--muted)}
+  .nav-links a:hover{color:var(--teal)}
+  .nav-cta{background:var(--teal);color:#fff;padding:.45rem 1.1rem;border-radius:8px;font-size:.875rem;font-weight:600;transition:background .2s}
+  .nav-cta:hover{background:#15695b}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,#1a3d5c 60%,#1a5c4f 100%);
+        color:#fff;padding:6rem 2rem 5rem;text-align:center}
+  .hero-badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+              border-radius:20px;font-size:.8rem;padding:.3rem .9rem;margin-bottom:1.5rem;color:rgba(255,255,255,.85)}
+  .hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.15;max-width:700px;margin:0 auto .5rem}
+  .hero-name{color:var(--teal-mid)}
+  .hero-sub{font-size:1.1rem;color:rgba(255,255,255,.75);max-width:540px;margin:1rem auto 2.5rem}
+  .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .btn-primary{background:var(--teal-mid);color:#fff;padding:.75rem 1.75rem;border-radius:10px;font-weight:700;font-size:.95rem;transition:background .2s}
+  .btn-primary:hover{background:#238f7a}
+  .btn-outline{border:1.5px solid rgba(255,255,255,.4);color:#fff;padding:.75rem 1.75rem;border-radius:10px;font-weight:600;font-size:.95rem;transition:border-color .2s}
+  .btn-outline:hover{border-color:#fff}
+  .hero-stats{display:flex;justify-content:center;gap:3rem;margin-top:4rem;flex-wrap:wrap}
+  .stat{text-align:center}
+  .stat-num{font-size:2rem;font-weight:800;color:var(--teal-mid)}
+  .stat-lbl{font-size:.8rem;color:rgba(255,255,255,.6);margin-top:.15rem;letter-spacing:.5px;text-transform:uppercase}
+
+  /* SECTIONS */
+  section{padding:5rem 2rem}
+  .inner{max-width:1100px;margin:auto}
+  .section-tag{font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem}
+  h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--navy);line-height:1.2}
+  .section-sub{color:var(--muted);margin-top:.6rem;font-size:1rem;max-width:560px}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3rem}
+  @media(max-width:720px){.about-grid{grid-template-columns:1fr}}
+  .about-avatar{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--navy));
+                display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:800;
+                color:#fff;margin-bottom:1.5rem;letter-spacing:-.5px}
+  .about-text p{color:var(--muted);margin-bottom:1rem;font-size:.975rem}
+  .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+  .tag{background:var(--teal-light);color:var(--teal);font-size:.8rem;padding:.3rem .75rem;border-radius:20px;font-weight:600}
+  .about-right{display:flex;flex-direction:column;gap:1rem}
+  .timeline-item{border-left:2px solid var(--border);padding-left:1.25rem;position:relative}
+  .timeline-item::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--teal);
+    position:absolute;left:-5px;top:4px}
+  .tl-role{font-weight:700;font-size:.95rem;color:var(--navy)}
+  .tl-org{font-size:.875rem;color:var(--teal);font-weight:600}
+  .tl-date{font-size:.8rem;color:var(--muted)}
+
+  /* SERVICES */
+  .services-bg{background:var(--gray)}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+  .svc-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.75rem;
+             transition:box-shadow .2s,transform .2s}
+  .svc-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07);transform:translateY(-2px)}
+  .svc-icon{width:44px;height:44px;border-radius:10px;background:var(--teal-light);
+             display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
+  .svc-icon svg{width:22px;height:22px;stroke:var(--teal);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .svc-card h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.5rem}
+  .svc-card p{font-size:.875rem;color:var(--muted);line-height:1.65}
+
+  /* PUBLICATIONS */
+  .pub-list{margin-top:2.5rem;display:flex;flex-direction:column;gap:1rem}
+  .pub{border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;background:#fff;
+        border-left:3px solid var(--teal)}
+  .pub-title{font-size:.925rem;font-weight:600;color:var(--navy);margin-bottom:.3rem;line-height:1.45}
+  .pub-meta{font-size:.8rem;color:var(--muted)}
+  .pub-journal{color:var(--teal);font-weight:600}
+  .show-more{display:block;text-align:center;margin-top:1.5rem;color:var(--teal);font-weight:600;font-size:.9rem;cursor:pointer;background:none;border:none}
+
+  /* TALKS */
+  .talks-bg{background:var(--gray)}
+  .talks-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:2.5rem}
+  .talk-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+  .talk-card h4{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;line-height:1.4}
+  .talk-venue{font-size:.8rem;color:var(--teal);font-weight:600}
+  .talk-date{font-size:.75rem;color:var(--muted);margin-top:.25rem}
+
+  /* CONTACT */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-top:3rem}
+  @media(max-width:720px){.contact-grid{grid-template-columns:1fr}}
+  .contact-info p{color:var(--muted);font-size:.975rem;margin-bottom:1.5rem}
+  .contact-item{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+  .contact-item svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+  .contact-item span{font-size:.9rem;color:var(--muted)}
+  .contact-form{display:flex;flex-direction:column;gap:1rem}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  input,textarea,select{width:100%;padding:.7rem 1rem;border:1px solid var(--border);border-radius:8px;
+    font-size:.9rem;font-family:inherit;color:var(--text);background:#fff;outline:none;
+    transition:border-color .2s}
+  input:focus,textarea:focus{border-color:var(--teal)}
+  textarea{resize:vertical;min-height:120px}
+  .submit-btn{background:var(--teal);color:#fff;border:none;padding:.8rem 2rem;border-radius:10px;
+              font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;width:100%}
+  .submit-btn:hover{background:#15695b}
+
+  /* FOOTER */
+  footer{background:var(--navy);color:rgba(255,255,255,.6);text-align:center;padding:2rem;font-size:.85rem}
+  footer strong{color:#fff}
+
+  @media(max-width:600px){
+    .nav-links{display:none}
+    .hero-stats{gap:1.5rem}
+    .form-row{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Alen <span>Delić</span></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#publications">Publications</a>
+      <a href="#talks">Talks</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="nav-cta">Work With Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Salt Lake City, UT · Available for Consulting</div>
+  <h1>Biostatistics & Data Science<br>by <span class="hero-name">Alen Delić</span>, MS</h1>
+  <p class="hero-sub">From clinical trial design to machine learning pipelines — rigorous analysis, clearly communicated. Let's make your research land.</p>
+  <div class="hero-btns">
+    <a href="#contact" class="btn-primary">Let's Talk</a>
+    <a href="#services" class="btn-outline">What I Do</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">16+</div><div class="stat-lbl">Publications</div></div>
+    <div class="stat"><div class="stat-num">7+</div><div class="stat-lbl">Years Consulting</div></div>
+    <div class="stat"><div class="stat-num">18+</div><div class="stat-lbl">Invited Talks</div></div>
+    <div class="stat"><div class="stat-num">9.5/10</div><div class="stat-lbl">Trainee Satisfaction</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="inner">
+    <div class="section-tag">About</div>
+    <h2>The person behind the p-values</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <img src="headshot.jpg" alt="Alen Delić" style="width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:center top;margin-bottom:1.5rem;border:3px solid var(--teal-light)"/>
+        <p>I'm Alen — a biostatistician and data scientist based in Salt Lake City, UT. With a Master's in Biostatistics from the University of Utah and 7+ years of independent consulting experience, I help clinicians and research teams navigate everything from study design to publication-ready analysis.</p>
+        <p>I've contributed to work published in <strong>JAMA Network Open</strong>, <strong>Neurology</strong>, <strong>Stroke</strong>, and more — and I've delivered invited lectures at Yale University's Department of Neurology since 2021.</p>
+        <p>Currently, I also lead the Health Data Science Training Program under NIH's AIM-AHEAD initiative, mentoring the next generation of researchers in R, Python, and clinical data science.</p>
+        <p>Outside the office: avid skier and golfer, currently learning the ukulele 🤙</p>
+        <div class="tags">
+          <span class="tag">R</span><span class="tag">Python</span><span class="tag">SAS</span>
+          <span class="tag">STATA</span><span class="tag">SQL</span>
+          <span class="tag">Clinical Trials</span><span class="tag">CDISC</span>
+          <span class="tag">ML / AI</span><span class="tag">Causal Inference</span>
+        </div>
+      </div>
+      <div class="about-right">
+        <div class="timeline-item">
+          <div class="tl-role">Data Science Lead</div>
+          <div class="tl-org">Axle Informatics / AIM-AHEAD (NIH)</div>
+          <div class="tl-date">Feb 2024 – Present</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-role">Founder & Consultant</div>
+          <div class="tl-org">Delić Biostatistical Consulting</div>
+          <div class="tl-date">May 2021 – Present</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-role">Sr. Data Scientist</div>
+          <div class="tl-org">MarketDial</div>
+          <div class="tl-date">May 2021 – Jan 2024</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-role">Biostatistician II</div>
+          <div class="tl-org">University of Utah</div>
+          <div class="tl-date">May 2020 – May 2021</div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-role">MS, Biostatistics</div>
+          <div class="tl-org">University of Utah</div>
+          <div class="tl-date">May 2020</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services-bg">
+  <div class="inner">
+    <div class="section-tag">Services</div>
+    <h2>From A to Z</h2>
+    <p class="section-sub">I adapt to your tools and your timeline — whether you need a one-time analysis or ongoing support throughout your study.</p>
+    <div class="services-grid">
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 0 1 0 10h-2"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+        <h3>Clinical Trial Design</h3>
+        <p>Power calculations, randomization schemes, adaptive designs, and SAP development to ensure statistical rigor and regulatory alignment from day one.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>Statistical Analysis</h3>
+        <p>Regression, survival analysis, mixed models, propensity scores, causal inference, and more — tailored to your research question and data structure.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3>Data Management & CDISC</h3>
+        <p>CDISC-compliant data pipelines, reproducible workflows, and regulatory-ready datasets to support grant submissions and FDA filings.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <h3>Machine Learning & AI</h3>
+        <p>Predictive modeling, time series, NLP, and ML pipelines on clinical and real-world data using Python and R, with production-ready deployment.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <h3>Manuscript & Grant Support</h3>
+        <p>Statistical methods sections, results write-ups, tables and figures, and peer review response support for journals and federal grant agencies.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Education & Training</h3>
+        <p>Statistical seminars for clinicians, students, and research teams — from hypothesis testing basics to causal inference and survival analysis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="inner">
+    <div class="section-tag">Research</div>
+    <h2>Selected Publications</h2>
+    <p class="section-sub">Published across JAMA, Neurology, Stroke, and more.</p>
+    <div class="pub-list">
+
+      <div class="pub">
+        <div class="pub-title">Prolonged corticosteroid therapy and steroid-sparing maintenance immunotherapy lower relapse risk in pediatric and adult MOGAD</div>
+        <div class="pub-meta">Hoshina Y, Liu S, Wright MA, <strong>Delic A</strong> et al. · <span class="pub-journal">J Neuroimmunol</span> · 2025</div>
+      </div>
+
+      <div class="pub">
+        <div class="pub-title">A randomized, double-blind, placebo-controlled pilot study of suvorexant for insomnia in Parkinson disease</div>
+        <div class="pub-meta">Burdick D, Cardona-Gonzalez M, <strong>Delic A</strong> et al. · <span class="pub-journal">Neurology</span> · 2025</div>
+      </div>
+
+      <div class="pub">
+        <div class="pub-title">Disability and recurrent stroke among participants in stroke prevention trials</div>
+        <div class="pub-meta">De Havenon A, Viscoli C, Kleindorfer D, <strong>Delic A</strong> et al. · <span class="pub-journal">JAMA Network Open</span> · 2024</div>
+      </div>
+
+      <div class="pub">
+        <div class="pub-title">Vasculitis in the central nervous system: etiology, characteristics, and outcomes in a large single-center cohort</div>
+        <div class="pub-meta">Hoshima Y, <strong>Delic A</strong>, Wong et al. · <span class="pub-journal">Neurohospitalist</span> · 2023</div>
+      </div>
+
+      <div class="pub">
+        <div class="pub-title">Modelling anticoagulation and health-related quality of life in those with atrial fibrillation: a secondary analysis of AFFIRM</div>
+        <div class="pub-meta">Stulberg E, <strong>Delic A</strong>, de Havenon et al. · <span class="pub-journal">Clin Res Cardiol</span> · 2023</div>
+      </div>
+
+      <div class="pub">
+        <div class="pub-title">Association of preeclampsia with incident stroke in later life among women in the Framingham Heart Study</div>
+        <div class="pub-meta">De Havenon A, <strong>Delic A</strong>, Stulberg E et al. · <span class="pub-journal">JAMA Network Open</span> · 2021</div>
+      </div>
+
+      <div class="pub">
+        <div class="pub-title">Effect of antihypertensives by class on cerebral small vessel disease: a post hoc analysis of SPRINT-MIND</div>
+        <div class="pub-meta">Goldstein E, Wolcott Z, <strong>Delic A</strong> et al. · <span class="pub-journal">Stroke</span> · 2022</div>
+      </div>
+
+      <div class="pub">
+        <div class="pub-title">Five-year trends in payments for neurologist-prescribed drugs in Medicare Part D</div>
+        <div class="pub-meta">De Havenon A, <strong>Delic A</strong> et al. · <span class="pub-journal">Neurology</span> · 2021</div>
+      </div>
+
+    </div>
+    <button class="show-more" onclick="this.style.display='none';document.getElementById('more-pubs').style.display='flex'">+ Show more publications</button>
+    <div id="more-pubs" style="display:none;flex-direction:column;gap:1rem;margin-top:1rem">
+      <div class="pub">
+        <div class="pub-title">Neurologic manifestations of common variable immunodeficiency: Impact on quality of life</div>
+        <div class="pub-meta">Almeida B, Smith T, <strong>Delic A</strong> et al. · <span class="pub-journal">Neurol Neuroimmunol Neuroinflamm</span> · 2023</div>
+      </div>
+      <div class="pub">
+        <div class="pub-title">Modern look at transverse myelitis and inflammatory myelopathy</div>
+        <div class="pub-meta">Abbatemarco J, Galli J, <strong>Delic A</strong> et al. · <span class="pub-journal">Neurol Neuroimmunol Neuroinflamm</span> · 2021</div>
+      </div>
+      <div class="pub">
+        <div class="pub-title">Impact of COVID-19 on outcomes in ischemic stroke patients in the United States</div>
+        <div class="pub-meta">De Havenon A, <strong>Delic A</strong> et al. · <span class="pub-journal">J Stroke Cerebrovasc Dis</span> · 2020</div>
+      </div>
+      <div class="pub">
+        <div class="pub-title">Using ultrasound and inflammation to improve prediction of ischemic stroke: A secondary analysis of MESA</div>
+        <div class="pub-meta">Baradaran H, <strong>Delic A</strong> et al. · <span class="pub-journal">Cerebrovasc Dis Extra</span> · 2020</div>
+      </div>
+      <div class="pub">
+        <div class="pub-title">Impact of intracranial pressure monitor–guided therapy on neurologic outcome after spontaneous nontraumatic intracranial hemorrhage</div>
+        <div class="pub-meta">Menacho S, Grandhi R, <strong>Delic A</strong> et al. · <span class="pub-journal">J Stroke Cerebrovasc Dis</span> · 2020</div>
+      </div>
+      <div class="pub">
+        <div class="pub-title">Effect of dihydropyridine calcium channel blockers on blood pressure variability in the SPRINT trial</div>
+        <div class="pub-meta">De Havenon A, <strong>Delic A</strong> et al. · <span class="pub-journal">J Hypertens</span> · 2021</div>
+      </div>
+      <div class="pub">
+        <div class="pub-title">Direct cost analysis of rapid MRI in the emergency department evaluation of patients suspected of having acute ischemic stroke</div>
+        <div class="pub-meta">de Havenon A, Orlando C, <strong>Delic A</strong> et al. · <span class="pub-journal">Neuroradiol J</span> · 2022</div>
+      </div>
+      <div class="pub">
+        <div class="pub-title">Matched oligoclonal bands: Diagnostic utility and clinical characteristics</div>
+        <div class="pub-meta">Hoshima Y, Abbatemarco J, <strong>Delic A</strong> et al. · <span class="pub-journal">Ann Clin Transl Neurol</span> · 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TALKS -->
+<section id="talks" class="talks-bg">
+  <div class="inner">
+    <div class="section-tag">Education</div>
+    <h2>Invited Seminars & Lectures</h2>
+    <p class="section-sub">Teaching clinicians and researchers to think statistically — since 2020.</p>
+    <div class="talks-grid">
+      <div class="talk-card">
+        <h4>Interpreting Clinical Research: Study Design, Effect Sizes, and Statistical Evidence</h4>
+        <div class="talk-venue">Yale University, Dept. of Neurology</div>
+        <div class="talk-date">March 2026</div>
+      </div>
+      <div class="talk-card">
+        <h4>Causal Inference in Medicine</h4>
+        <div class="talk-venue">Yale University, Dept. of Neurology</div>
+        <div class="talk-date">January 2025</div>
+      </div>
+      <div class="talk-card">
+        <h4>Introduction to Biostatistics</h4>
+        <div class="talk-venue">Yale University, Dept. of Neurology</div>
+        <div class="talk-date">November 2024</div>
+      </div>
+      <div class="talk-card">
+        <h4>Effective Statistical Writing</h4>
+        <div class="talk-venue">Yale University, Dept. of Neurology</div>
+        <div class="talk-date">May 2024</div>
+      </div>
+      <div class="talk-card">
+        <h4>Regression, Survival Analysis, and Model Diagnostics</h4>
+        <div class="talk-venue">Yale University, Dept. of Neurology</div>
+        <div class="talk-date">April 2024</div>
+      </div>
+      <div class="talk-card">
+        <h4>Power Analysis, Propensity Scores, and Inverse Probability Weighting</h4>
+        <div class="talk-venue">Yale University, Dept. of Neurology</div>
+        <div class="talk-date">March 2022</div>
+      </div>
+      <div class="talk-card">
+        <h4>Epidemiology, Mediation, and Biases</h4>
+        <div class="talk-venue">Yale University, Dept. of Neurology</div>
+        <div class="talk-date">January 2022</div>
+      </div>
+      <div class="talk-card">
+        <h4>Clinical Trial/Study Designs and Examples</h4>
+        <div class="talk-venue">University of Utah, Dept. of Neurology</div>
+        <div class="talk-date">March 2021</div>
+      </div>
+      <div class="talk-card">
+        <h4>Introduction to Biostatistics</h4>
+        <div class="talk-venue">University of Utah, Dept. of Neurology</div>
+        <div class="talk-date">September 2020</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="inner">
+    <div class="section-tag">Contact</div>
+    <h2>Let's work together</h2>
+    <p class="section-sub">Whether you're in early planning or need help getting a manuscript across the finish line — reach out.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>I work with clinicians, research teams, and institutions across the country. No project is too early or too late in its lifecycle.</p>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>alen.delic.bioconsulting@gmail.com</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Salt Lake City, UT (remote-friendly)</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <a href="https://linkedin.com/in/alen-delic-05a128121/" target="_blank" style="color:var(--teal);font-size:.9rem">linkedin.com/in/alen-delic</a>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.28 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>(801) 530-9874</span>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <input type="text" placeholder="Your name" required/>
+          <input type="email" placeholder="Your email" required/>
+        </div>
+        <input type="text" placeholder="Organization / Institution"/>
+        <select>
+          <option value="" disabled selected>What do you need help with?</option>
+          <option>Clinical trial design</option>
+          <option>Statistical analysis</option>
+          <option>Grant / manuscript support</option>
+          <option>Machine learning / data science</option>
+          <option>Statistical training / seminar</option>
+          <option>Other</option>
+        </select>
+        <textarea placeholder="Tell me a bit about your project..."></textarea>
+        <button type="submit" class="submit-btn">Send Message</button>
+        <p id="form-msg" style="color:var(--teal);font-size:.875rem;text-align:center;display:none">✓ Message sent! I'll be in touch soon.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Alen Delić</strong> · Biostatistical Consulting · Salt Lake City, UT</p>
+  <p style="margin-top:.5rem">© 2025 Delić Biostatistical Consulting · alen.delic.bioconsulting@gmail.com</p>
+</footer>
+
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t) t.scrollIntoView({behavior:'smooth'});
+    });
+  });
+  function handleSubmit(e){
+    e.preventDefault();
+    const msg=document.getElementById('form-msg');
+    msg.style.display='block';
+    e.target.reset();
+    setTimeout(()=>msg.style.display='none',5000);
+  }
+</script>
+</body>
+</html>
