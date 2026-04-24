@@ -420,11 +420,11 @@
       </div>
       <form class="contact-form" action="https://formspree.io/f/xgordnqv" method="POST">
         <div class="form-row">
-          <input type="text" placeholder="Your name" required/>
-          <input type="email" placeholder="Your email" required/>
+          <input type="text" name="name" placeholder="Your name" required/>
+          <input type="email" name="email" placeholder="Your email" required/>
         </div>
-        <input type="text" placeholder="Organization / Institution"/>
-        <select>
+        <input type="text" name="organization" placeholder="Organization / Institution"/>
+        <select name="service">
           <option value="" disabled selected>What do you need help with?</option>
           <option>Clinical trial design</option>
           <option>Statistical analysis</option>
@@ -433,7 +433,7 @@
           <option>Statistical training / seminar</option>
           <option>Other</option>
         </select>
-        <textarea placeholder="Tell me a bit about your project..."></textarea>
+        <textarea name="message" placeholder="Tell me a bit about your project..."></textarea>
         <button type="submit" class="submit-btn">Send Message</button>
       </form>
     </div>
@@ -454,13 +454,6 @@
       if(t) t.scrollIntoView({behavior:'smooth'});
     });
   });
-  function handleSubmit(e){
-    e.preventDefault();
-    const msg=document.getElementById('form-msg');
-    msg.style.display='block';
-    e.target.reset();
-    setTimeout(()=>msg.style.display='none',5000);
-  }
 </script>
 </body>
 </html>
